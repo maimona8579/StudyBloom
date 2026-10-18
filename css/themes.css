@@ -1,0 +1,81 @@
+/* css/themes.css – Four theme token sets */
+
+/* ── 1. Soft Pastel (default) ─────────────────────────────── */
+[data-theme="soft-pastel"] {
+  --color-bg:          #fdf6ff;
+  --color-surface:     #ffffff;
+  --color-primary:     #9b59b6;
+  --color-primary-fg:  #ffffff;
+  --color-accent:      #e91e8c;
+  --color-text:        #2c2c2c;
+  --color-text-muted:  #6b6b6b;
+  --color-border:      #e0cce8;
+  --color-success:     #27ae60;
+  --color-danger:      #c0392b;
+  --color-warning:     #f39c12;
+  --color-low:         #3498db;
+  --color-medium:      #f39c12;
+  --color-high:        #c0392b;
+  --shadow:            0 2px 8px rgba(0,0,0,.10);
+  --radius:            10px;
+}
+
+/* ── 2. Dark Scholar ──────────────────────────────────────── */
+[data-theme="dark-scholar"] {
+  --color-bg:          #1a1a2e;
+  --color-surface:     #16213e;
+  --color-primary:     #e94560;
+  --color-primary-fg:  #ffffff;
+  --color-accent:      #0f3460;
+  --color-text:        #e0e0e0;
+  --color-text-muted:  #9e9e9e;
+  --color-border:      #0f3460;
+  --color-success:     #2ecc71;
+  --color-danger:      #e74c3c;
+  --color-warning:     #f1c40f;
+  --color-low:         #3498db;
+  --color-medium:      #f1c40f;
+  --color-high:        #e74c3c;
+  --shadow:            0 2px 8px rgba(0,0,0,.40);
+  --radius:            10px;
+}
+
+/* ── 3. Forest Focus ──────────────────────────────────────── */
+[data-theme="forest-focus"] {
+  --color-bg:          #f0f7f4;
+  --color-surface:     #ffffff;
+  --color-primary:     #2d7a4f;
+  --color-primary-fg:  #ffffff;
+  --color-accent:      #1b4f35;
+  --color-text:        #1c2a22;
+  --color-text-muted:  #5a7a65;
+  --color-border:      #b2d8c4;
+  --color-success:     #27ae60;
+  --color-danger:      #c0392b;
+  --color-warning:     #e67e22;
+  --color-low:         #2980b9;
+  --color-medium:      #e67e22;
+  --color-high:        #c0392b;
+  --shadow:            0 2px 8px rgba(0,0,0,.10);
+  --radius:            10px;
+}
+
+/* ── 4. Lavender & White ──────────────────────────────────── */
+[data-theme="lavender-white"] {
+  --color-bg:          #f4f0fc;
+  --color-surface:     #ffffff;
+  --color-primary:     #7c4dff;
+  --color-primary-fg:  #ffffff;
+  --color-accent:      #ede7f6;
+  --color-text:        #1a1a2e;
+  --color-text-muted:  #7b6b8a;
+  --color-border:      #d1c4e9;
+  --color-success:     #388e3c;
+  --color-danger:      #c62828;
+  --color-warning:     #f57c00;
+  --color-low:         #1976d2;
+  --color-medium:      #f57c00;
+  --color-high:        #c62828;
+  --shadow:            0 2px 8px rgba(0,0,0,.10);
+  --radius:            10px;
+}

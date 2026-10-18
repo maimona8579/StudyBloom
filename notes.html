@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="soft-pastel">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;" />
+  <title>StudyBloom – Notes</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/themes.css" />
+  <script src="js/theme.js" defer></script>
+  <script src="js/utils.js" defer></script>
+  <script src="js/storage.js" defer></script>
+  <script src="js/notes.js" defer></script>
+  <script src="js/notes-page.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>StudyBloom – Notes</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="planner.html">Planner</a>
+      <a href="notes.html" aria-current="page">Notes</a>
+    </nav>
+    <label for="theme-select">Theme:</label>
+    <select id="theme-select" aria-label="Select theme"></select>
+  </header>
+  <main id="main-content" role="main">
+    <!-- Notes UI will be injected by notes-page.js -->
+  </main>
+  <footer>
+    <p>Your tasks and notes are saved only in this browser on this device. Clearing browser data will erase them.</p>
+  </footer>
+  <noscript>StudyBloom needs JavaScript to work.</noscript>
+</body>
+</html>
