@@ -16,7 +16,7 @@
 
     // ── Form widget ────────────────────────────────────────────────
     const formWidget = u.createElement("div", { class: "widget", attrs: { id: "new-note" } });
-    const formTitle  = u.createElement("h2", { text: "Add Note" });
+    const formTitle  = u.createElement("h1", { text: "Add Note" });
     const status     = u.createElement("p",  { class: "status-msg", attrs: { role: "status", "aria-live": "polite" } });
 
     function group(labelTxt, el) {

@@ -59,14 +59,18 @@
     return true;
   }
 
-  /** Load tasks from storage, returning only valid records. */
+  /** Load tasks from storage, returning only valid records, treating missing/empty subject as General. */
   function loadTasks() {
     const raw = StudyBloom.storage.getItem("tasks");
     if (!raw) return [];
     try {
       const arr = JSON.parse(raw);
       if (!Array.isArray(arr)) return [];
-      return arr.filter(isValidTaskRecord);
+      return arr.filter(isValidTaskRecord).map(function (t) {
+        return Object.assign({}, t, {
+          subject: (t.subject && typeof t.subject === "string" && t.subject.trim()) ? t.subject.trim() : "General"
+        });
+      });
     } catch (_) {
       return [];
     }
@@ -87,7 +91,7 @@
     return save.ok ? { ok: true, task: validation.task } : { ok: false, error: save.error };
   }
 
-  /** Update an existing task by id; input may contain partial fields. */
+  /** Update an existing task by id; saves normalized values from validateTask. */
   function updateTask(id, patches) {
     const tasks = loadTasks();
     const idx = tasks.findIndex(t => t.id === id);
@@ -96,12 +100,19 @@
     const merged = { ...existing, ...patches };
     const validation = validateTask(merged);
     if (!validation.valid) return { ok: false, errors: validation.errors };
-    merged.id = existing.id;
-    merged.createdAt = existing.createdAt;
-    merged.updatedAt = new Date().toISOString();
-    tasks[idx] = merged;
+    const normalized = {
+      id: existing.id,
+      title: validation.task.title,
+      subject: validation.task.subject,
+      due: validation.task.due,
+      priority: validation.task.priority,
+      completed: existing.completed,
+      createdAt: existing.createdAt,
+      updatedAt: new Date().toISOString()
+    };
+    tasks[idx] = normalized;
     const save = saveTasks(tasks);
-    return save.ok ? { ok: true, task: merged } : { ok: false, error: save.error };
+    return save.ok ? { ok: true, task: normalized } : { ok: false, error: save.error };
   }
 
   /** Delete a task by id. */
@@ -160,6 +171,13 @@
     }
   }
 
+  /** Check if task is overdue relative to todayKey (YYYY-MM-DD). */
+  function isOverdue(task, todayKey) {
+    if (!task || task.completed || !task.due) return false;
+    const dateKey = typeof task.due === "string" ? task.due.slice(0, 10) : "";
+    return Boolean(dateKey && dateKey < todayKey);
+  }
+
   /** Compute dashboard stats. */
   function computeStats() {
     const tasks = loadTasks();
@@ -179,6 +197,7 @@
     loadTasks,
     sortTasks,
     filterTasks,
+    isOverdue,
     computeStats,
   };
 })();

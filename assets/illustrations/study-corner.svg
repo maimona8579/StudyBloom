@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" width="100%" height="auto">
+  <defs>
+    <linearGradient id="shelfGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D7BA98"/>
+      <stop offset="100%" stop-color="#BA956E"/>
+    </linearGradient>
+    <linearGradient id="wallWash" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFDF9"/>
+      <stop offset="100%" stop-color="#FBF4ED"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Soft background card -->
+  <rect x="0" y="0" width="480" height="320" rx="16" fill="url(#wallWash)"/>
+
+  <!-- Wall stickers & pinned notes -->
+  <!-- Washi tape on wall -->
+  <rect x="58" y="28" width="54" height="15" rx="2" fill="#E8D7F1" opacity="0.85" transform="rotate(-6 85 35)"/>
+  <!-- Sticky note 1 (Blush) -->
+  <rect x="62" y="38" width="56" height="56" rx="4" fill="#FCE4EC" stroke="#F8BBD0" stroke-width="1.5" transform="rotate(3 90 66)"/>
+  <circle cx="90" cy="62" r="3" fill="#F06292" opacity="0.6"/>
+
+  <!-- Sticky note 2 (Mint) with mini washi tape -->
+  <rect x="136" y="44" width="48" height="48" rx="4" fill="#E8F5E9" stroke="#C8E6C9" stroke-width="1.5" transform="rotate(-4 160 68)"/>
+  <rect x="144" y="38" width="32" height="10" rx="1" fill="#FFE082" opacity="0.85" transform="rotate(-4 160 43)"/>
+
+  <!-- Tiny stars and hearts on wall -->
+  <path d="M220 40 l2 4 5 1 -4 3 1 5 -4-3 -4 3 1-5 -4-3 5-1 z" fill="#FFD54F" opacity="0.85"/>
+  <path d="M245 65 c-2-3-6-2-6 1 0 3 6 6 6 6 s6-3 6-6 c0-3-4-4-6-1 z" fill="#F48FB1" opacity="0.8"/>
+  <path d="M380 45 l1.5 3 3.5 0.5 -2.5 2.5 0.5 3.5 -3-2 -3 2 0.5-3.5 -2.5-2.5 3.5-0.5 z" fill="#CE93D8" opacity="0.8"/>
+  <path d="M410 70 c-1.5-2-4.5-1.5-4.5 1 0 2 4.5 4.5 4.5 4.5 s4.5-2.5 4.5-4.5 c0-2.5-3-3-4.5-1 z" fill="#81C784" opacity="0.8"/>
+
+  <!-- Main Wooden Shelf -->
+  <rect x="30" y="240" width="420" height="18" rx="5" fill="url(#shelfGrad)"/>
+  <rect x="40" y="258" width="400" height="8" rx="3" fill="#9C7753" opacity="0.55"/>
+
+  <!-- Left book stack (lying horizontal) -->
+  <rect x="52" y="222" width="68" height="18" rx="3" fill="#D1C4E9" stroke="#B39DDB" stroke-width="1.5"/>
+  <line x1="56" y1="231" x2="114" y2="231" stroke="#9575CD" stroke-width="1"/>
+  <rect x="56" y="206" width="60" height="16" rx="3" fill="#FFE0B2" stroke="#FFCC80" stroke-width="1.5"/>
+  <line x1="60" y1="214" x2="110" y2="214" stroke="#FFA726" stroke-width="1"/>
+
+  <!-- Standing Books (5 books) -->
+  <!-- Book 1: Lavender -->
+  <rect x="135" y="145" width="22" height="95" rx="3" fill="#C5CAE9" stroke="#9FA8DA" stroke-width="1.5"/>
+  <rect x="140" y="155" width="12" height="16" rx="1" fill="#E8EAF6"/>
+  <!-- Book 2: Sage Green -->
+  <rect x="160" y="130" width="24" height="110" rx="3" fill="#C8E6C9" stroke="#A5D6A7" stroke-width="1.5"/>
+  <line x1="164" y1="140" x2="180" y2="140" stroke="#81C784" stroke-width="2"/>
+  <!-- Book 3: Blush Pink -->
+  <rect x="187" y="150" width="20" height="90" rx="3" fill="#F8BBD0" stroke="#F48FB1" stroke-width="1.5"/>
+  <circle cx="197" cy="170" r="4" fill="#F06292" opacity="0.7"/>
+  <!-- Book 4: Soft Yellow (leaning) -->
+  <g transform="rotate(10 215 240)">
+    <rect x="212" y="140" width="22" height="100" rx="3" fill="#FFF59D" stroke="#FFF176" stroke-width="1.5"/>
+    <line x1="216" y1="155" x2="230" y2="155" stroke="#FBC02D" stroke-width="1.5"/>
+  </g>
+  <!-- Book 5: Warm Ochre -->
+  <g transform="rotate(12 235 240)">
+    <rect x="238" y="155" width="20" height="85" rx="3" fill="#FFE082" stroke="#FFD54F" stroke-width="1.5"/>
+  </g>
+
+  <!-- Pen Cup with 5 pens -->
+  <!-- Cup body -->
+  <rect x="280" y="178" width="42" height="62" rx="6" fill="#F5F5F5" stroke="#E0E0E0" stroke-width="1.5"/>
+  <rect x="286" y="196" width="30" height="8" rx="2" fill="#E1BEE7" opacity="0.6"/>
+  <!-- 5 Pens sticking out -->
+  <rect x="286" y="140" width="5" height="42" rx="2" fill="#FF8A80" transform="rotate(-8 288 160)"/>
+  <rect x="294" y="135" width="4" height="46" rx="2" fill="#80D8FF" transform="rotate(-3 296 160)"/>
+  <rect x="301" y="132" width="5" height="48" rx="2" fill="#FFD180"/>
+  <rect x="309" y="136" width="4" height="45" rx="2" fill="#B9F6CA" transform="rotate(4 311 160)"/>
+  <rect x="315" y="142" width="5" height="40" rx="2" fill="#EA80FC" transform="rotate(9 317 160)"/>
+
+  <!-- Cozy Mug -->
+  <rect x="338" y="192" width="34" height="48" rx="5" fill="#FFE0B2" stroke="#FFCC80" stroke-width="1.5"/>
+  <path d="M372 202 c6 0 10 4 10 12 c0 8-4 12-10 12" fill="none" stroke="#FFCC80" stroke-width="3" stroke-linecap="round"/>
+  <!-- Steam from mug -->
+  <path d="M348 184 c-2-4 2-7 0-11" fill="none" stroke="#BCAAA4" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+  <path d="M356 182 c-2-4 2-7 0-11" fill="none" stroke="#BCAAA4" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- Small Potted Plant -->
+  <!-- Terracotta pot -->
+  <polygon points="398,240 432,240 438,202 392,202" fill="#D7CCC8" stroke="#BCAAA4" stroke-width="1.5"/>
+  <rect x="390" y="198" width="50" height="6" rx="2" fill="#BCAAA4"/>
+  <!-- Plant leaves (Sage) -->
+  <path d="M415 198 C400 178 385 170 382 155 C398 152 410 170 415 198 Z" fill="#81C784"/>
+  <path d="M415 198 C425 175 440 168 448 158 C446 175 432 188 415 198 Z" fill="#A5D6A7"/>
+  <path d="M415 198 C410 165 412 150 415 138 C422 150 422 165 415 198 Z" fill="#66BB6A"/>
+</svg>

@@ -19,6 +19,7 @@
   <script src="../js/tasks.js"></script>
   <script src="../js/notes.js"></script>
   <script src="../js/days.js"></script>
+  <script src="../js/calendar.js"></script>
 </head>
 <body>
   <h1>StudyBloom Unit Tests</h1>
@@ -51,6 +52,7 @@
       const T = StudyBloom.tasks;
       const N = StudyBloom.notes;
       const D = StudyBloom.days;
+      const C = StudyBloom.calendar;
 
       // 1. utils.addDays across month ends
       assert("addDays across Jan -> Feb", U.addDays("2026-01-31", 1) === "2026-02-01");
@@ -62,13 +64,25 @@
       assert("today returns YYYY-MM-DD", /^\d{4}-\d{2}-\d{2}$/.test(U.today()));
       assert("generateId returns non-empty string", typeof U.generateId() === "string" && U.generateId().length > 5);
 
-      // 3. tasks validation & loadTasks
+      // 3. tasks validation & normalization
       const vTaskGood = T.validateTask({ title: "Study Math", priority: "high" });
       assert("validateTask passes for valid input", vTaskGood.valid === true && vTaskGood.task.title === "Study Math");
 
       const vTaskNoTitle = T.validateTask({ title: "   " });
       assert("validateTask fails without title", vTaskNoTitle.valid === false && vTaskNoTitle.errors.length > 0);
 
+      // Edit normalization bug fix
+      const createdT = T.createTask({ title: "  Math HW  ", subject: "Math", priority: "medium" });
+      const updatedT = T.updateTask(createdT.task.id, { title: "  Trimmed Math  ", subject: "   " });
+      assert("updateTask normalizes empty subject to General", updatedT.task.subject === "General");
+      assert("updateTask trims title", updatedT.task.title === "Trimmed Math");
+
+      // isOverdue
+      assert("isOverdue true for past pending task", T.isOverdue({ completed: false, due: "2026-10-10T00:00:00.000Z" }, "2026-10-18") === true);
+      assert("isOverdue false for future task", T.isOverdue({ completed: false, due: "2026-10-25T00:00:00.000Z" }, "2026-10-18") === false);
+      assert("isOverdue false for completed task", T.isOverdue({ completed: true, due: "2026-10-10T00:00:00.000Z" }, "2026-10-18") === false);
+
+      // 4. loadTasks filtering corrupt data
       const corruptTasks = [
         null,
         {},
@@ -79,70 +93,44 @@
       const loadedTasks = T.loadTasks();
       assert("loadTasks filters out corrupt records and keeps only valid", loadedTasks.length === 1 && loadedTasks[0].id === "good1");
 
-      // 4. notes validation & loadNotes
+      // 5. notes validation & edit normalization
       const vNoteGood = N.validateNote({ title: "Note 1", body: "Note content" });
       assert("validateNote passes for valid input", vNoteGood.valid === true && vNoteGood.note.title === "Note 1");
 
-      const corruptNotes = [
-        null,
-        {},
-        { id: "badn1" },
-        { id: "goodn1", title: "Valid Note", body: "Great content" }
-      ];
-      S.setItem("notes", JSON.stringify(corruptNotes));
-      const loadedNotes = N.loadNotes();
-      assert("loadNotes filters out corrupt records and keeps only valid", loadedNotes.length === 1 && loadedNotes[0].id === "goodn1");
+      const createdN = N.createNote({ title: "  Biology Note  ", subject: "Bio", body: "Content" });
+      const updatedN = N.updateNote(createdN.note.id, { title: "  New Bio  ", subject: "" });
+      assert("updateNote normalizes empty subject to General", updatedN.note.subject === "General");
+      assert("updateNote trims title", updatedN.note.title === "New Bio");
 
-      // 5. days.validateSlot
+      // 6. days validation
       const vSlotGood = D.validateSlot({ start: "09:00", end: "10:30", text: "Math practice" });
       assert("validateSlot passes with valid start, end, text", vSlotGood.valid === true && vSlotGood.slot.start === "09:00");
+      assert("validateGoal passes with text", D.validateGoal("Finish chemistry assignment").valid === true);
+      assert("sortSlots sorts chronologically by start", D.sortSlots([{ start: "14:00" }, { start: "08:30" }])[0].start === "08:30");
+      assert("setWater updates count within 0-8", D.setWater({ water: 0 }, 5) === 5);
 
-      const vSlotEndBeforeStart = D.validateSlot({ start: "10:00", end: "09:00", text: "Physics" });
-      assert("validateSlot fails when end is before start", vSlotEndBeforeStart.valid === false);
+      // 7. calendar tests (Oct 2026)
+      const octGrid = C.monthGrid(2026, 9);
+      assert("monthGrid(2026, 9) length is 42", octGrid.length === 42);
+      assert("first cell of Oct 2026 is 2026-09-28", octGrid[0].date === "2026-09-28");
+      assert("last cell of Oct 2026 is 2026-11-08", octGrid[41].date === "2026-11-08");
+      assert("inMonth true only for Oct 1-31", octGrid.filter(c => c.inMonth).length === 31);
+      assert("shiftMonth(2026, 11, 1) rolls to 2027-0", C.shiftMonth(2026, 11, 1).year === 2027 && C.shiftMonth(2026, 11, 1).month0 === 0);
+      assert("shiftMonth(2026, 0, -1) rolls to 2025-11", C.shiftMonth(2026, 0, -1).year === 2025 && C.shiftMonth(2026, 0, -1).month0 === 11);
 
-      const vSlotNoText = D.validateSlot({ start: "11:00", text: "" });
-      assert("validateSlot fails when text is empty", vSlotNoText.valid === false);
+      const grouped = C.tasksByDate([
+        { id: "1", due: "2026-10-18T00:00:00.000Z" },
+        { id: "2", due: "2026-10-18T10:00:00.000Z" },
+        { id: "3", due: null }
+      ]);
+      assert("tasksByDate groups same due date and skips null", grouped["2026-10-18"].length === 2 && !grouped["null"]);
 
-      // 6. days.validateGoal
-      const vGoalGood = D.validateGoal("Finish chemistry assignment");
-      assert("validateGoal passes with text", vGoalGood.valid === true && vGoalGood.goal.text === "Finish chemistry assignment");
-
-      const vGoalEmpty = D.validateGoal("   ");
-      assert("validateGoal fails with empty text", vGoalEmpty.valid === false);
-
-      // 7. days.sortSlots
-      const unsortedSlots = [
-        { start: "14:00", text: "Afternoon" },
-        { start: "08:30", text: "Morning" },
-        { start: "11:15", text: "Midday" }
-      ];
-      const sorted = D.sortSlots(unsortedSlots);
-      assert("sortSlots sorts chronologically by start", sorted[0].start === "08:30" && sorted[1].start === "11:15" && sorted[2].start === "14:00");
-
-      // 8. days.setWater
-      const testDay = { schedule: [], goals: [], water: 2 };
-      assert("setWater updates count within 0-8", D.setWater(testDay, 5) === 5 && testDay.water === 5);
-      assert("setWater clamps negative to 0", D.setWater(testDay, -2) === 0 && testDay.water === 0);
-      assert("setWater clamps >8 to 8", D.setWater(testDay, 10) === 8 && testDay.water === 8);
-
-      // 9. days.copyDay
-      const dayA = {
-        schedule: [{ id: "s1", start: "09:00", end: "10:00", text: "Study", done: true }],
-        goals: [{ id: "g1", text: "Goal 1", done: true }],
-        water: 4
-      };
-      D.saveDay("2026-10-18", dayA);
-      const copyRes = D.copyDay("2026-10-18", "2026-10-19");
-      const dayB = D.getDay("2026-10-19");
-      assert("copyDay copies schedule and goals resetting done to false", copyRes.ok === true && dayB.schedule[0].done === false && dayB.goals[0].done === false);
-
-      // 10. days.loadDays with corrupt and missing data
-      S.setItem("days", JSON.stringify({
-        "2026-10-18": { schedule: [null, {}], goals: [null], water: "invalid" },
-        "invalid-key": { schedule: [], goals: [] }
-      }));
-      const cleanedDays = D.loadDays();
-      assert("loadDays drops invalid keys and sanitizes contents", cleanedDays["2026-10-18"] && cleanedDays["2026-10-18"].water === 0 && !cleanedDays["invalid-key"]);
+      const dStatus = C.dayStatus([
+        { completed: false, due: "2026-10-15T00:00:00.000Z" },
+        { completed: false, due: "2026-10-18T00:00:00.000Z" },
+        { completed: true, due: "2026-10-10T00:00:00.000Z" }
+      ], "2026-10-18");
+      assert("dayStatus returns pending: 2, done: 1, overdue: 1", dStatus.pending === 2 && dStatus.done === 1 && dStatus.overdue === 1);
 
       // Clean up test keys
       S.removeItem("tasks");

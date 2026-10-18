@@ -1,5 +1,5 @@
 // js/dashboard-page.js – Sticky-note study board dashboard
-// Depends on: utils.js, storage.js, tasks.js, notes.js, quotes.js, timer.js, days.js, dashboard-day.js
+// Depends on: utils.js, storage.js, quotes.js, timer.js, days.js, dashboard-day.js
 
 (function () {
   function greet() {
@@ -24,8 +24,6 @@
 
     const u = StudyBloom.utils;
     const st = StudyBloom.storage;
-    const T = StudyBloom.tasks;
-    const N = StudyBloom.notes;
     const Q = StudyBloom.quotes;
 
     // Storage warning if unavailable
@@ -36,7 +34,7 @@
 
     // ── 1. Today Note (Pink) ────────────────────────────────────────
     const todayNote = u.createElement("article", { class: "note note-pink board-area-today" });
-    const lblWeekday = u.createElement("div", { class: "today-weekday", text: getWeekday(new Date()) });
+    const lblWeekday = u.createElement("h1", { class: "today-weekday", text: getWeekday(new Date()) });
     const lblDate = u.createElement("div", { class: "today-date", text: getFullDate(new Date()) });
     const lblGreet = u.createElement("div", { class: "today-greeting", text: greet() + "!" });
     const lblTag = u.createElement("div", { class: "today-tagline", text: "Small steps. Steady growth." });
@@ -132,83 +130,21 @@
       StudyBloom.timer.init();
     }
 
-    // ── 8. Task Cards (Lavender) ────────────────────────────────────
-    const tasksNote = u.createElement("article", { class: "note note-lavender board-area-tasks" });
-    const tasksH2 = u.createElement("h2", { text: "📌 Tasks Overview" });
-    tasksNote.appendChild(tasksH2);
-
-    const stats = T.computeStats();
-    const noteStats = N ? N.computeStats() : { total: 0 };
-
-    const grid = u.createElement("div", { class: "dashboard-grid" });
-    function statCard(val, lbl) {
-      const c = u.createElement("div", { class: "stat-card" });
-      c.appendChild(u.createElement("div", { class: "stat-value", text: String(val) }));
-      c.appendChild(u.createElement("div", { class: "stat-label", text: lbl }));
-      return c;
-    }
-    grid.appendChild(statCard(stats.total, "Total Tasks"));
-    grid.appendChild(statCard(stats.completed, "Done"));
-    grid.appendChild(statCard(noteStats.total, "Notes"));
-    tasksNote.appendChild(grid);
-
-    const todayStr = u.today();
-    const cutoff = u.addDays(todayStr, 7);
-    const allTasks = T.loadTasks();
-    const pending = allTasks.filter(function (t) { return !t.completed; });
-
-    // Today's priorities
-    const todayTasks = T.sortTasks(
-      pending.filter(function (t) {
-        if (!t.due) return false;
-        return t.due.slice(0, 10) <= todayStr;
-      })
-    ).slice(0, 5);
-
-    // Upcoming (next 7 days)
-    const upcomingTasks = pending.filter(function (t) {
-      if (!t.due) return false;
-      const d = t.due.slice(0, 10);
-      return d > todayStr && d <= cutoff;
-    }).slice(0, 5);
-
-    function renderTaskList(titleText, list) {
-      const h3 = u.createElement("h3", {
-        class: "reminders-title",
-        text: titleText,
-      });
-      tasksNote.appendChild(h3);
-
-      if (!list.length) {
-        tasksNote.appendChild(u.createElement("p", { class: "empty-state", text: "No pending tasks here." }));
-      } else {
-        const ul = u.createElement("ul", { class: "task-list" });
-        list.forEach(function (t) {
-          const li = u.createElement("li", { class: "task-item" });
-          const chip = u.createElement("span", { class: "chip chip-" + t.priority, text: t.priority });
-          const body = u.createElement("div", { class: "task-body" });
-          body.appendChild(u.createElement("div", { class: "task-title", text: t.title }));
-          body.appendChild(u.createElement("div", {
-            class: "task-meta",
-            text: (t.due ? t.due.slice(0, 10) : "No due date") + (t.subject ? " · " + t.subject : ""),
-          }));
-          li.appendChild(chip);
-          li.appendChild(body);
-          ul.appendChild(li);
-        });
-        tasksNote.appendChild(ul);
-      }
-    }
-
-    renderTaskList("⚡ Today's Priorities", todayTasks);
-    renderTaskList("📅 Upcoming Deadlines", upcomingTasks);
-
-    const lnkPlanner = u.createElement("div", { class: "form-actions" });
-    const aPlanner = u.createElement("a", { class: "btn btn-ghost", text: "View all in Planner →", attrs: { href: "planner.html" } });
-    lnkPlanner.appendChild(aPlanner);
-    tasksNote.appendChild(lnkPlanner);
-
-    main.appendChild(tasksNote);
+    // ── 8. Study Corner Note (Yellow) ───────────────────────────────
+    const cornerNote = u.createElement("article", { class: "note note-yellow board-area-corner" });
+    const cornerH2 = u.createElement("h2", { text: "🪴 Study Corner" });
+    const imgCorner = u.createElement("img", {
+      class: "corner-img",
+      attrs: { src: "assets/illustrations/study-corner.svg", alt: "Cozy study corner illustration with books, pens, and a plant" },
+    });
+    const caption = u.createElement("div", {
+      class: "corner-caption",
+      text: "One page at a time. One day at a time.",
+    });
+    cornerNote.appendChild(cornerH2);
+    cornerNote.appendChild(imgCorner);
+    cornerNote.appendChild(caption);
+    main.appendChild(cornerNote);
 
     // Midnight rollover check
     let lastCheckedDate = u.today();

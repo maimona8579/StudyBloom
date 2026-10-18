@@ -16,11 +16,11 @@
     const body    = (input.body    || "").trim();
 
     if (!title) errors.push("Title is required.");
-    else if (title.length > TITLE_MAX)   errors.push("Title must be \u2264 " + TITLE_MAX + " characters.");
+    else if (title.length > TITLE_MAX)   errors.push("Title must be ≤ " + TITLE_MAX + " characters.");
 
-    if (subject.length > SUBJECT_MAX)    errors.push("Subject must be \u2264 " + SUBJECT_MAX + " characters.");
+    if (subject.length > SUBJECT_MAX)    errors.push("Subject must be ≤ " + SUBJECT_MAX + " characters.");
     if (!body)  errors.push("Note body is required.");
-    else if (body.length > BODY_MAX)     errors.push("Note body must be \u2264 " + BODY_MAX + " characters.");
+    else if (body.length > BODY_MAX)     errors.push("Note body must be ≤ " + BODY_MAX + " characters.");
 
     if (errors.length) return { valid: false, errors, note: null };
 
@@ -50,7 +50,11 @@
     try {
       const arr = JSON.parse(raw);
       if (!Array.isArray(arr)) return [];
-      return arr.filter(isValidNoteRecord);
+      return arr.filter(isValidNoteRecord).map(function (n) {
+        return Object.assign({}, n, {
+          subject: (n.subject && typeof n.subject === "string" && n.subject.trim()) ? n.subject.trim() : "General"
+        });
+      });
     } catch (_) { return []; }
   }
 
@@ -74,12 +78,17 @@
     const merged = Object.assign({}, notes[idx], patches);
     const v = validateNote(merged);
     if (!v.valid) return { ok: false, errors: v.errors };
-    merged.id        = notes[idx].id;
-    merged.createdAt = notes[idx].createdAt;
-    merged.updatedAt = new Date().toISOString();
-    notes[idx] = merged;
+    const normalized = {
+      id: notes[idx].id,
+      title: v.note.title,
+      subject: v.note.subject,
+      body: v.note.body,
+      createdAt: notes[idx].createdAt,
+      updatedAt: new Date().toISOString()
+    };
+    notes[idx] = normalized;
     const s = saveNotes(notes);
-    return s.ok ? { ok: true, note: merged } : { ok: false, error: s.error };
+    return s.ok ? { ok: true, note: normalized } : { ok: false, error: s.error };
   }
 
   function deleteNote(id) {
