@@ -50,9 +50,10 @@ function today() {
 
 /** Add days to a date string (YYYY‑MM‑DD). */
 function addDays(dateStr, days) {
-  const d = new Date(dateStr);
-  d.setDate(d.getDate() + days);
-  return formatDate(d);
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const dt = new Date(y, m - 1, d);
+  dt.setDate(dt.getDate() + days);
+  return formatDate(dt);
 }
 
 // Export under the global StudyBloom namespace.

@@ -40,7 +40,7 @@ studyBloom/
 
 ## Development notes
 - All DOM manipulation uses `StudyBloom.utils` – **no** `innerHTML` anywhere (security rule R‑14).
-- CSP is declared in every HTML file: `default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:`.
+- CSP is declared in every HTML file: `default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'self'; form-action 'self'`.
 - Themes are stored in `localStorage` under `studybloom:v1:theme`.
 - No external network requests; the app works offline.
 

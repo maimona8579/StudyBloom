@@ -36,9 +36,7 @@
 
     // ── Stats ─────────────────────────────────────────────────────
     const stats       = StudyBloom.tasks.computeStats();
-    const notesRaw    = st.getItem("notes");
-    let noteCount = 0;
-    try { noteCount = notesRaw ? JSON.parse(notesRaw).length : 0; } catch (_) {}
+    const noteCount   = (StudyBloom.notes && StudyBloom.notes.computeStats) ? StudyBloom.notes.computeStats().total : 0;
 
     const grid = u.createElement("div", { class: "dashboard-grid" });
 
@@ -77,11 +75,13 @@
     const allTasks = StudyBloom.tasks.loadTasks();
     const pending  = allTasks.filter(function (t) { return !t.completed; });
 
-    // Today's priorities: due today or overdue and high priority
-    const todayTasks = pending.filter(function (t) {
-      if (!t.due) return false;
-      return t.due.slice(0, 10) <= todayStr;
-    }).slice(0, 5);
+    // Today's priorities: due today or overdue, sorted by sortTasks
+    const todayTasks = StudyBloom.tasks.sortTasks(
+      pending.filter(function (t) {
+        if (!t.due) return false;
+        return t.due.slice(0, 10) <= todayStr;
+      })
+    ).slice(0, 5);
 
     // Upcoming: due in next 7 days
     const upcomTasks = pending.filter(function (t) {

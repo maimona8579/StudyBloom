@@ -38,7 +38,7 @@
     });
     inPriority.value = "medium";
 
-    const btnRow   = u.createElement("div", { class: "timer-controls", attrs: { style: "justify-content:flex-start;gap:.5rem;" } });
+    const btnRow   = u.createElement("div", { class: "form-actions" });
     const btnSave  = u.createElement("button", { text: "Save Task" });
     const btnCancel= u.createElement("button", { class: "btn btn-ghost", text: "Cancel", attrs: { type: "button" } });
     btnRow.appendChild(btnSave);
@@ -90,7 +90,7 @@
       }
       tasks.forEach(function (task) {
         const li      = u.createElement("li", { class: "task-item" + (task.completed ? " completed" : "") });
-        const cb      = u.createElement("input", { attrs: { type: "checkbox", "aria-label": "Mark complete", id: "cb-" + task.id } });
+        const cb      = u.createElement("input", { attrs: { type: "checkbox", "aria-label": "Mark " + task.title + " as complete", id: "cb-" + task.id } });
         if (task.completed) cb.setAttribute("checked", "");
 
         const body    = u.createElement("div", { class: "task-body" });
@@ -152,6 +152,7 @@
     }
 
     btnSave.addEventListener("click", function () {
+      const isEdit = Boolean(editingId);
       const input = {
         title:    inTitle.value,
         subject:  inSubject.value,
@@ -159,7 +160,7 @@
         priority: inPriority.value,
       };
       let result;
-      if (editingId) {
+      if (isEdit) {
         result = T.updateTask(editingId, input);
       } else {
         result = T.createTask(input);
@@ -170,8 +171,7 @@
       }
       clearForm();
       renderList();
-      setStatus(editingId ? "Task updated!" : "Task added!", false);
-      editingId = null;
+      setStatus(isEdit ? "Task updated!" : "Task added!", false);
     });
 
     btnCancel.addEventListener("click", clearForm);

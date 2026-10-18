@@ -32,7 +32,7 @@
     const inBody    = u.createElement("textarea", { attrs: { id: "note-body", placeholder: "Write your note here…" } });
     inBody.setAttribute("maxlength", "2000");
 
-    const btnRow    = u.createElement("div",    { class: "timer-controls", attrs: { style: "justify-content:flex-start;gap:.5rem;" } });
+    const btnRow    = u.createElement("div",    { class: "form-actions" });
     const btnSave   = u.createElement("button", { text: "Save Note" });
     const btnCancel = u.createElement("button", { class: "btn btn-ghost", text: "Cancel" });
     btnRow.appendChild(btnSave); btnRow.appendChild(btnCancel);
@@ -80,10 +80,20 @@
         // Body preview (first 150 chars)
         const PREVIEW = 150;
         const preview = u.createElement("div", { class: "note-body" });
-        const short   = note.body.length > PREVIEW;
-        u.setText(preview, short ? note.body.slice(0, PREVIEW) + "…" : note.body);
+        const isLong  = note.body.length > PREVIEW;
+        let expanded  = false;
+        u.setText(preview, isLong ? note.body.slice(0, PREVIEW) + "…" : note.body);
 
         const actions = u.createElement("div", { class: "note-actions" });
+        if (isLong) {
+          const btnToggle = u.createElement("button", { class: "btn btn-ghost", text: "Show more" });
+          btnToggle.addEventListener("click", function () {
+            expanded = !expanded;
+            u.setText(preview, expanded ? note.body : note.body.slice(0, PREVIEW) + "…");
+            u.setText(btnToggle, expanded ? "Show less" : "Show more");
+          });
+          actions.appendChild(btnToggle);
+        }
         const btnEdit = u.createElement("button", { class: "btn btn-ghost", text: "Edit" });
         const btnDel  = u.createElement("button", { class: "btn btn-danger", text: "Delete" });
         actions.appendChild(btnEdit); actions.appendChild(btnDel);

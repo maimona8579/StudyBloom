@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';" />
+  <title>StudyBloom Unit Tests</title>
+  <style>
+    body { font-family: sans-serif; padding: 1.5rem; max-width: 800px; margin: 0 auto; line-height: 1.5; }
+    .summary { font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem; padding: 0.75rem; border-radius: 6px; }
+    .pass-summary { background: #d4edda; color: #155724; }
+    .fail-summary { background: #f8d7da; color: #721c24; }
+    ul { list-style: none; padding: 0; }
+    li { padding: 0.4rem 0.6rem; margin-bottom: 0.3rem; border-radius: 4px; font-family: monospace; }
+    li.pass { background: #e8f5e9; color: #2e7d32; }
+    li.fail { background: #ffebee; color: #c62828; }
+  </style>
+  <script src="../js/utils.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/tasks.js"></script>
+  <script src="../js/notes.js"></script>
+</head>
+<body>
+  <h1>StudyBloom Unit Tests</h1>
+  <div id="summary" class="summary">Running tests...</div>
+  <ul id="results"></ul>
+
+  <script>
+    (function () {
+      let passed = 0;
+      let failed = 0;
+      const resultsEl = document.getElementById("results");
+      const summaryEl = document.getElementById("summary");
+
+      function assert(desc, condition) {
+        const li = document.createElement("li");
+        if (condition) {
+          passed++;
+          li.className = "pass";
+          li.textContent = "✔ PASS: " + desc;
+        } else {
+          failed++;
+          li.className = "fail";
+          li.textContent = "✖ FAIL: " + desc;
+        }
+        resultsEl.appendChild(li);
+      }
+
+      const U = StudyBloom.utils;
+      const S = StudyBloom.storage;
+      const T = StudyBloom.tasks;
+      const N = StudyBloom.notes;
+
+      // 1. utils.addDays across month ends
+      assert("addDays across Jan -> Feb", U.addDays("2026-01-31", 1) === "2026-02-01");
+      assert("addDays across Feb -> Mar (non-leap)", U.addDays("2026-02-28", 1) === "2026-03-01");
+      assert("addDays across Year end Dec -> Jan", U.addDays("2026-12-31", 1) === "2027-01-01");
+      assert("addDays negative offset", U.addDays("2026-03-01", -1) === "2026-02-28");
+
+      // 2. utils.formatDate and today
+      assert("today returns YYYY-MM-DD", /^\d{4}-\d{2}-\d{2}$/.test(U.today()));
+      assert("generateId returns non-empty string", typeof U.generateId() === "string" && U.generateId().length > 5);
+
+      // 3. tasks validation
+      const vTaskGood = T.validateTask({ title: "Study Math", priority: "high" });
+      assert("validateTask passes for valid input", vTaskGood.valid === true && vTaskGood.task.title === "Study Math");
+
+      const vTaskNoTitle = T.validateTask({ title: "   " });
+      assert("validateTask fails without title", vTaskNoTitle.valid === false && vTaskNoTitle.errors.length > 0);
+
+      // 4. loadTasks filtering corrupt data
+      const corruptTasks = [
+        null,
+        {},
+        { id: "bad1" },
+        { id: "bad2", title: "No Priority", completed: false },
+        { id: "bad3", title: "Bad Due", priority: "low", completed: false, due: 12345 },
+        { id: "good1", title: "Valid Task", priority: "medium", completed: false, due: null }
+      ];
+      S.setItem("tasks", JSON.stringify(corruptTasks));
+      const loadedTasks = T.loadTasks();
+      assert("loadTasks filters out corrupt records and keeps only valid", loadedTasks.length === 1 && loadedTasks[0].id === "good1");
+
+      // 5. notes validation
+      const vNoteGood = N.validateNote({ title: "Note 1", body: "Note content" });
+      assert("validateNote passes for valid input", vNoteGood.valid === true && vNoteGood.note.title === "Note 1");
+
+      const vNoteNoBody = N.validateNote({ title: "Title only", body: "" });
+      assert("validateNote fails without body", vNoteNoBody.valid === false && vNoteNoBody.errors.length > 0);
+
+      // 6. loadNotes filtering corrupt data
+      const corruptNotes = [
+        null,
+        {},
+        { id: "badn1" },
+        { id: "badn2", title: "No body" },
+        { id: "goodn1", title: "Valid Note", body: "Great content" }
+      ];
+      S.setItem("notes", JSON.stringify(corruptNotes));
+      const loadedNotes = N.loadNotes();
+      assert("loadNotes filters out corrupt records and keeps only valid", loadedNotes.length === 1 && loadedNotes[0].id === "goodn1");
+
+      // Clean up test keys
+      S.removeItem("tasks");
+      S.removeItem("notes");
+
+      // Summary
+      summaryEl.textContent = "Completed: " + passed + " passed, " + failed + " failed.";
+      summaryEl.className = "summary " + (failed === 0 ? "pass-summary" : "fail-summary");
+    })();
+  </script>
+</body>
+</html>

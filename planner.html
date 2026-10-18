@@ -4,11 +4,11 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'self'; form-action 'self';" />
   <title>StudyBloom – Planner</title>
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/themes.css" />
-  <script src="js/theme.js" defer></script>
+  <script src="js/theme.js"></script>
   <script src="js/utils.js" defer></script>
   <script src="js/storage.js" defer></script>
   <script src="js/tasks.js" defer></script>
@@ -29,7 +29,7 @@
     <!-- Planner UI will be injected by planner-page.js -->
   </main>
   <footer>
-    <p>Your tasks and notes are saved only in this browser on this device. Clearing browser data will erase them.</p>
+    <p>Your tasks and notes are saved only in this browser on this device. Clearing browser data will erase them. Please don't store passwords or sensitive information.</p>
   </footer>
   <noscript>StudyBloom needs JavaScript to work.</noscript>
 </body>

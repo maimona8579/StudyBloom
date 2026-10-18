@@ -11,6 +11,7 @@
     if (!container) return;
 
     const u = StudyBloom.utils;
+    const originalTitle = document.title;
 
     // ── DOM structure ──────────────────────────────────────────────
     const display  = u.createElement("div",    { class: "timer-display", attrs: { "aria-live": "off", "aria-atomic": "true" } });
@@ -20,7 +21,7 @@
     const btnStart = u.createElement("button", { text: "Start",  attrs: { id: "timer-start" } });
     const btnPause = u.createElement("button", { text: "Pause",  attrs: { id: "timer-pause", disabled: "" } });
     const btnReset = u.createElement("button", { text: "Reset",  attrs: { id: "timer-reset", disabled: "" } });
-    const hint     = u.createElement("p",      { text: "Leaving or refreshing the page resets the timer.", attrs: { style: "font-size:.75rem;color:var(--color-text-muted);margin-top:.5rem;" } });
+    const hint     = u.createElement("p",      { class: "timer-hint", text: "Leaving or refreshing the page resets the timer." });
 
     controls.appendChild(btnStart);
     controls.appendChild(btnPause);
@@ -52,7 +53,6 @@
     function render(secs) {
       u.setText(display, fmt(secs));
       u.setText(badge,   mode === "focus" ? "Focus" : "Break");
-      setTitle(secs);
     }
 
     function setStatus(msg, isError) {
@@ -72,12 +72,12 @@
       const total   = mode === "focus" ? FOCUS_SECS : BREAK_SECS;
       remaining = Math.max(0, total - elapsed);
       render(remaining);
+      setTitle(remaining);
 
       if (remaining === 0) {
         clearInterval(intervalId);
         intervalId = null;
         startTs    = null;
-        const next = mode === "focus" ? "Break" : "Focus";
         setStatus(mode === "focus"
           ? "Focus session complete! Take a 5-minute break."
           : "Break over! Ready for another focus session.", false);
@@ -87,7 +87,7 @@
         disableBtn(btnStart, false);
         disableBtn(btnPause, true);
         disableBtn(btnReset, false);
-        document.title = "StudyBloom – Home";
+        document.title = originalTitle;
       }
     }
 
@@ -95,6 +95,7 @@
     btnStart.addEventListener("click", function () {
       const total = mode === "focus" ? FOCUS_SECS : BREAK_SECS;
       startTs = Date.now() - (total - remaining) * 1000;
+      setTitle(remaining);
       intervalId = setInterval(tick, 500); // 500 ms for smoother display
       disableBtn(btnStart, true);
       disableBtn(btnPause, false);
@@ -106,6 +107,7 @@
       clearInterval(intervalId);
       intervalId = null;
       startTs    = null;
+      document.title = originalTitle;
       disableBtn(btnStart, false);
       disableBtn(btnPause, true);
       setStatus("Paused.", false);
@@ -122,7 +124,7 @@
       disableBtn(btnPause, true);
       disableBtn(btnReset, true);
       setStatus("", false);
-      document.title = "StudyBloom – Home";
+      document.title = originalTitle;
     });
 
     // ── Initial render ─────────────────────────────────────────────

@@ -36,12 +36,21 @@
     return { valid: true, errors: [], note };
   }
 
+  function isValidNoteRecord(n) {
+    if (!n || typeof n !== "object") return false;
+    if (typeof n.id !== "string" || !n.id.trim()) return false;
+    if (typeof n.title !== "string" || !n.title.trim()) return false;
+    if (typeof n.body !== "string") return false;
+    return true;
+  }
+
   function loadNotes() {
     const raw = StudyBloom.storage.getItem("notes");
     if (!raw) return [];
     try {
       const arr = JSON.parse(raw);
-      return Array.isArray(arr) ? arr : [];
+      if (!Array.isArray(arr)) return [];
+      return arr.filter(isValidNoteRecord);
     } catch (_) { return []; }
   }
 
