@@ -1,81 +1,127 @@
-/* css/themes.css – Four theme token sets */
+/* css/themes.css – Four aesthetic theme token sets and swatches */
 
 /* ── 1. Soft Pastel (default) ─────────────────────────────── */
 [data-theme="soft-pastel"] {
-  --color-bg:          #fdf6ff;
-  --color-surface:     #ffffff;
-  --color-primary:     #9b59b6;
-  --color-primary-fg:  #ffffff;
-  --color-accent:      #e91e8c;
-  --color-text:        #2c2c2c;
-  --color-text-muted:  #6b6b6b;
-  --color-border:      #e0cce8;
-  --color-success:     #27ae60;
-  --color-danger:      #c0392b;
-  --color-warning:     #f39c12;
-  --color-low:         #3498db;
-  --color-medium:      #f39c12;
-  --color-high:        #c0392b;
-  --shadow:            0 2px 8px rgba(0,0,0,.10);
-  --radius:            10px;
+  --bg-grad:           linear-gradient(135deg, #FFF9F2 0%, #FDECF2 100%);
+  --color-bg:          #FFF9F2;
+  --color-surface:     #FFFFFF;
+  --color-text:        #332B40;
+  --color-text-muted:  #6B6178;
+  --color-primary:     #B8A7E8;
+  --color-primary-fg:  #332B40;
+  --color-accent:      #F3C6D3;
+  --color-heading:     #6F4FA8;
+  --color-border:      #EADFE6;
+  --wallpaper:         url("../assets/wallpapers/soft-pastel.svg");
+  --note-pink:         #FDE8ED;
+  --note-lavender:     #F0EAFB;
+  --note-mint:         #E4F5ED;
+  --note-yellow:       #FFF6DB;
+  --note-blue:         #E3F0FC;
+  --note-peach:        #FDE9DE;
+
+  --color-success:     #2D7A4F;
+  --color-danger:      #A83232;
+  --color-warning:     #996200;
+  --color-low:         #2962FF;
+  --color-medium:      #996200;
+  --color-high:        #A83232;
+  --shadow:            0 4px 14px rgba(51, 43, 64, 0.08);
+  --radius:            16px;
 }
 
-/* ── 2. Dark Scholar ──────────────────────────────────────── */
-[data-theme="dark-scholar"] {
-  --color-bg:          #1a1a2e;
-  --color-surface:     #16213e;
-  --color-primary:     #e94560;
-  --color-primary-fg:  #ffffff;
-  --color-accent:      #0f3460;
-  --color-text:        #e0e0e0;
-  --color-text-muted:  #9e9e9e;
-  --color-border:      #0f3460;
-  --color-success:     #2ecc71;
-  --color-danger:      #e74c3c;
-  --color-warning:     #f1c40f;
-  --color-low:         #3498db;
-  --color-medium:      #f1c40f;
-  --color-high:        #e74c3c;
-  --shadow:            0 2px 8px rgba(0,0,0,.40);
-  --radius:            10px;
-}
-
-/* ── 3. Forest Focus ──────────────────────────────────────── */
-[data-theme="forest-focus"] {
-  --color-bg:          #f0f7f4;
-  --color-surface:     #ffffff;
-  --color-primary:     #2d7a4f;
-  --color-primary-fg:  #ffffff;
-  --color-accent:      #1b4f35;
-  --color-text:        #1c2a22;
-  --color-text-muted:  #5a7a65;
-  --color-border:      #b2d8c4;
-  --color-success:     #27ae60;
-  --color-danger:      #c0392b;
-  --color-warning:     #e67e22;
-  --color-low:         #2980b9;
-  --color-medium:      #e67e22;
-  --color-high:        #c0392b;
-  --shadow:            0 2px 8px rgba(0,0,0,.10);
-  --radius:            10px;
-}
-
-/* ── 4. Lavender & White ──────────────────────────────────── */
+/* ── 2. Lavender & White ──────────────────────────────────── */
 [data-theme="lavender-white"] {
-  --color-bg:          #f4f0fc;
-  --color-surface:     #ffffff;
-  --color-primary:     #7c4dff;
-  --color-primary-fg:  #ffffff;
-  --color-accent:      #ede7f6;
-  --color-text:        #1a1a2e;
-  --color-text-muted:  #7b6b8a;
-  --color-border:      #d1c4e9;
-  --color-success:     #388e3c;
-  --color-danger:      #c62828;
-  --color-warning:     #f57c00;
-  --color-low:         #1976d2;
-  --color-medium:      #f57c00;
-  --color-high:        #c62828;
-  --shadow:            0 2px 8px rgba(0,0,0,.10);
-  --radius:            10px;
+  --bg-grad:           linear-gradient(135deg, #FAF8FF 0%, #EEE8FB 100%);
+  --color-bg:          #FAF8FF;
+  --color-surface:     #FFFFFF;
+  --color-text:        #2E2A3B;
+  --color-text-muted:  #655F78;
+  --color-primary:     #B8A7E8;
+  --color-primary-fg:  #2E2A3B;
+  --color-accent:      #E7E0FA;
+  --color-heading:     #5B3FB0;
+  --color-border:      #E4DDF5;
+  --wallpaper:         url("../assets/wallpapers/lavender-white.svg");
+  --note-pink:         #FBE5EF;
+  --note-lavender:     #EDE7FC;
+  --note-mint:         #E2F3EC;
+  --note-yellow:       #FFF4D8;
+  --note-blue:         #E1EFFD;
+  --note-peach:        #FDE7DE;
+
+  --color-success:     #2E7D32;
+  --color-danger:      #C2185B;
+  --color-warning:     #8D6E63;
+  --color-low:         #1976D2;
+  --color-medium:      #8D6E63;
+  --color-high:        #C2185B;
+  --shadow:            0 4px 14px rgba(46, 42, 59, 0.08);
+  --radius:            16px;
 }
+
+/* ── 3. Beige Academia (dark-academia) ─────────────────────── */
+[data-theme="dark-academia"] {
+  --bg-grad:           linear-gradient(135deg, #F5ECDD 0%, #E9DAC1 100%);
+  --color-bg:          #F5ECDD;
+  --color-surface:     #FBF6EC;
+  --color-text:        #3B2A1E;
+  --color-text-muted:  #6E5A49;
+  --color-primary:     #8B5E3C;
+  --color-primary-fg:  #FFF8EC;
+  --color-accent:      #C8A27A;
+  --color-heading:     #6B4423;
+  --color-border:      #D9C6A5;
+  --wallpaper:         url("../assets/wallpapers/dark-academia.svg");
+  --note-pink:         #F5DED9;
+  --note-lavender:     #EADED6;
+  --note-mint:         #E1E8DC;
+  --note-yellow:       #F6EDD4;
+  --note-blue:         #DCE3E5;
+  --note-peach:        #F6E2D0;
+
+  --color-success:     #386641;
+  --color-danger:      #8B263E;
+  --color-warning:     #9A5B2D;
+  --color-low:         #496A81;
+  --color-medium:      #9A5B2D;
+  --color-high:        #8B263E;
+  --shadow:            0 4px 14px rgba(59, 42, 30, 0.09);
+  --radius:            16px;
+}
+
+/* ── 4. Sage Green (sage-green) ───────────────────────────── */
+[data-theme="sage-green"] {
+  --bg-grad:           linear-gradient(135deg, #F4F7F1 0%, #E2ECDC 100%);
+  --color-bg:          #F4F7F1;
+  --color-surface:     #FDFEFB;
+  --color-text:        #26352B;
+  --color-text-muted:  #56655A;
+  --color-primary:     #A8C3A0;
+  --color-primary-fg:  #26352B;
+  --color-accent:      #DCE8D7;
+  --color-heading:     #3F6B4A;
+  --color-border:      #D5E1D0;
+  --wallpaper:         url("../assets/wallpapers/sage-green.svg");
+  --note-pink:         #FCE8EB;
+  --note-lavender:     #EAE6F4;
+  --note-mint:         #E3EFE1;
+  --note-yellow:       #FFF5DC;
+  --note-blue:         #E0EEF5;
+  --note-peach:        #FCE9DE;
+
+  --color-success:     #2D6A4F;
+  --color-danger:      #A83232;
+  --color-warning:     #8C6D1F;
+  --color-low:         #2B6CB0;
+  --color-medium:      #8C6D1F;
+  --color-high:        #A83232;
+  --shadow:            0 4px 14px rgba(38, 53, 43, 0.08);
+  --radius:            16px;
+}
+
+/* ── Swatch styles for the theme picker popover ────────────── */
+.swatch[data-swatch="soft-pastel"]    { background: linear-gradient(135deg, #FFF9F2 50%, #B8A7E8 50%); }
+.swatch[data-swatch="lavender-white"] { background: linear-gradient(135deg, #FAF8FF 50%, #B8A7E8 50%); }
+.swatch[data-swatch="dark-academia"]  { background: linear-gradient(135deg, #F5ECDD 50%, #8B5E3C 50%); }
+.swatch[data-swatch="sage-green"]     { background: linear-gradient(135deg, #F4F7F1 50%, #A8C3A0 50%); }

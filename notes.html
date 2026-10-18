@@ -15,15 +15,16 @@
   <script src="js/notes-page.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <header>
-    <h1>StudyBloom – Notes</h1>
+    <h1>StudyBloom</h1>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="planner.html">Planner</a>
-      <a href="notes.html" aria-current="page">Notes</a>
+      <a href="index.html"><span aria-hidden="true">🏠</span> Home</a>
+      <a href="planner.html"><span aria-hidden="true">✅</span> Planner</a>
+      <a href="notes.html" aria-current="page"><span aria-hidden="true">📝</span> Notes</a>
+      <a href="about.html"><span aria-hidden="true">🌸</span> About</a>
     </nav>
-    <label for="theme-select">Theme:</label>
-    <select id="theme-select" aria-label="Select theme"></select>
+    <div id="theme-picker" class="theme-picker"></div>
   </header>
   <main id="main-content" role="main">
     <!-- Notes UI will be injected by notes-page.js -->

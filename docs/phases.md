@@ -228,3 +228,11 @@ All tasks (TASK-001 to TASK-047) and phases (PH-01 to PH-07): **Not started.**
 | PH-05 | | | | | | Not started |
 | PH-06 | | | | | | Not started |
 | PH-07 | 2026-10-14 | 0/0 | Manual walkthrough pending | Pending | None | In progress |
+
+## 9. Homepage redesign change note
+
+- **New files:** `about.html`, `js/days.js`, `js/dashboard-day.js`, `assets/wallpapers/soft-pastel.svg`, `assets/wallpapers/lavender-white.svg`, `assets/wallpapers/dark-academia.svg`, `assets/wallpapers/sage-green.svg`.
+- **New storage key:** `studybloom:v1:days` (stores daily schedules, goals, and water tracking).
+- **Theme ID changes:** `dark-scholar` replaced by `dark-academia` (Beige Academia); `forest-focus` replaced by `sage-green` (Sage Green). Backward-compatible migration mapping in `js/theme.js`.
+- **New requirements covered:** FR-027 (Daily schedule), FR-028 (Daily goals), FR-029 (Water and kindness reminders), FR-030 (Study techniques card), FR-031 (About page), FR-032 (Theme picker popover and wallpapers).
+- **Field name note:** Code preserves field names `due` and `body` (while earlier docs mentioned `dueDate` and `content`) to maintain backward compatibility with saved localStorage data.
